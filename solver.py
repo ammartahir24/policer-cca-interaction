@@ -19,7 +19,8 @@ class Solver():
 
 		# r(t) = r_l + integral(0, T) Inc(t) dt
 		add_incr = sp.integrate(cca.Inc(t), t)
-		self.r_t = r_l + add_incr
+		val_at_zero = add_incr.subs(t, 0)
+		self.r_t = (r_l - val_at_zero) + add_incr
 		print("r(t): ", self.r_t)
 		print("======")
 
@@ -69,7 +70,7 @@ class Solver():
 		r_l_expr = self.cca.Dec(r_h_expr)
 
 		print("r_l, r_h, r")
-		print(self.cca.plug(r_l_expr), 1.0*self.cca.plug(r_h_expr), r)
+		print(self.cca.plug(r_l_expr).evalf(), 1.0*self.cca.plug(r_h_expr).evalf(), r)
 		print("======")
 
 		self.r_l = self.cca.plug(r_l_expr)
@@ -80,12 +81,13 @@ class Solver():
 		
 		r_expr = self.r_t.subs(t, T)
 
-		equation_T_r = sp.Eq(r_expr, r_)
+		equation_T_r = sp.Eq(r_expr / r, r_ / r)
 		equation_T_r = equation_T_r.subs({r_l : self.r_l})
 		equation_T_r = equation_T_r.subs({r_h : self.r_h})
 		equation_T_r = self.cca.plug(equation_T_r)
 		equation_T_r = equation_T_r.subs({r_h : self.r_h})
 
+		print(equation_T_r)
 		T_r = solve_real(equation_T_r, T)
 		T_r = T_r.subs({r_l : self.r_l})
 		T_r = simplify(self.cca.plug(T_r))
@@ -154,7 +156,7 @@ class Solver():
 		print("Phantom Queue Size: ", self.phq_max)
 		print("Solution (cmp): ", self.cca.Sol())
 
-		
+
 	def plot_cycles(self, cycles):
 		samples = 500
 		cycle_time_len = float(self.T_h)

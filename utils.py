@@ -1,14 +1,25 @@
 import sympy as sp
 
 def simplify(eq):
-	return sp.nsimplify(eq).simplify()
+	eq = sp.expand_log(eq, force=True)
+	return sp.nsimplify(eq).simplify().evalf()
 
 
 def solve_real(eq, var):
-	solution = sp.solve(eq, var)
-	solution = [simplify(sol) for sol in solution]
-	solution = [sol for sol in solution if not sol.has(sp.I)]
-	return solution[-1]
+
+	try:
+		return sp.nsolve(eq, var, 0)
+	except:
+		pass
+
+	try:
+		solution = sp.solve(eq.evalf(), var)
+		real_solutions = [sol for sol in solution if not sol.has(sp.I)]
+		if real_solutions:
+			return simplify(real_solutions[-1])
+		
+	except (sp.SympifyError, ValueError, NotImplementedError):
+		return None
 
 
 def bytes_to_mbps():
