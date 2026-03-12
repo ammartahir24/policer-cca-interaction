@@ -20,6 +20,10 @@ class Cubic():
 
 
 	def Inc(self, t):
+		# r'(t), where r(t) = w(t) / RTT(t)
+		# r'(t) = (w'(t) * RTT(t) - RTT'(t) * w(t)) / RTT^2(t)
+		# note that RTT'(t) = 0 for a policer because RTT(t) is a fixed propagation delay denoted by R below.
+		# For cubic, w'(t) = 3C(t-K)^2
 		ai = (3 * C * ((t - K)**2)) / R
 
 		return ai
