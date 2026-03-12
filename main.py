@@ -4,7 +4,7 @@ from cubic import Cubic
 from reno import Reno
 from gcc import Gcc
 from solver import Solver
-
+from simulator import Simulator
 
 
 MSS = 1464 # bytes
@@ -20,6 +20,8 @@ reno = Reno(rate_MSS, RTT, MSS)
 cubic = Cubic(rate_MSS, RTT, MSS)
 gcc = Gcc(rate_MSS, RTT, MSS)
 
+## Mathematical solvers
+
 sol1 = Solver(reno, rate_MSS, RTT, MSS)
 sol1.plot_cycles(5)
 sol2 = Solver(cubic, rate_MSS, RTT, MSS)
@@ -28,3 +30,18 @@ sol2.plot_cycles(5)
 
 sol3 = Solver(gcc, rate_MSS, RTT, MSS)
 sol3.plot_cycles(5)
+
+
+## Simulators
+
+
+reno_simulator = Simulator(reno, rate_MSS, RTT, MSS)
+
+reno_simulator.simulate_shaper(5)
+reno_simulator.simulate_phantom(5)
+
+
+cubic_simulator = Simulator(cubic, rate_MSS, RTT, MSS)
+
+cubic_simulator.simulate_shaper(5)
+cubic_simulator.simulate_phantom(5)

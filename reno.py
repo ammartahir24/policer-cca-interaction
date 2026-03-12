@@ -10,12 +10,21 @@ class Reno():
 		self.beta = 0.5
 		self.name = "reno"
 
+	def reset(self):
+		return
+
 	def Inc(self, t):
 		alpha = 1 / (R**2)
 		return alpha
 
 	def Dec(self, r):
 		return beta * r
+
+	def increment_cwnd(self, cwnd, t):
+		return cwnd + 1
+
+	def decrement_cwnd(self, cwnd, t):
+		return cwnd * self.beta
 
 	def plug(self, eq):
 		eq_eval = eq.subs({beta : self.beta})

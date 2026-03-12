@@ -196,7 +196,7 @@ class Solver():
 		plt.ylabel('Mbps')
 		plt.legend()
 		plt.grid(True)
-		plt.savefig(self.cca.name + '_rates_plot.png')
+		plt.savefig("figs/" + self.cca.name + '_rates_plot.png')
 
 		plt.figure(figsize=(10, 4)) 
 		plt.plot(time, qsize, label='$Q(t)$ (Queue Size)', color='orange')
@@ -204,7 +204,7 @@ class Solver():
 		plt.ylabel('KiloBytes')
 		plt.legend()
 		plt.grid(True)
-		plt.savefig(self.cca.name + '_qsize_plot.png')
+		plt.savefig("figs/" + self.cca.name + '_qsize_plot.png')
 
 
 
