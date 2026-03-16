@@ -7,11 +7,11 @@ class Gcc():
 		self.rate = rate
 		self.RTT = RTT
 		self.MSS = MSS
-		self.avg_loss = 1.5 # based on observation that we continue to have losses resulting in more than 1 rate reduction from ecn exps
+		self.avg_loss = 1.7 # based on observation that we continue to have losses resulting in more than 1 rate reduction from ecn exps
 		self.beta = 1 - (self.avg_loss)*0.5
 		self.alpha = 1.05
 		self.name = "gcc"
-		self.dt = 0.1
+		self.dt = 0.5
 
 
 	def Inc(self, t):
@@ -31,6 +31,6 @@ class Gcc():
 		return eq_eval
 
 	def Sol(self):
-		
+		print(self.rate)
 		return None
 

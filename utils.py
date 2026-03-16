@@ -6,7 +6,6 @@ def simplify(eq):
 
 
 def solve_real(eq, var):
-
 	try:
 		return sp.nsolve(eq, var, 0)
 	except:
@@ -27,3 +26,13 @@ def bytes_to_mbps():
 
 def mbps_to_bytes():
 	return 1 / bytes_to_mbps()
+
+def derivative(time, var):
+	var_t, var_t_plus = var[:-1], var[1:]
+	time_t, time_t_plus = time[:-1], time[1:]
+
+	var_diff = [v_t_p - v_t for v_t, v_t_p in zip(var_t, var_t_plus)]
+	time_diff = [v_t_p - v_t for v_t, v_t_p in zip(time_t, time_t_plus)]
+
+	deriv_var = [dvar / dt for dvar, dt in zip(var_diff, time_diff)]
+	return deriv_var

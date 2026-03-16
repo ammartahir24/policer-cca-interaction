@@ -37,11 +37,12 @@ sol3.plot_cycles(5)
 
 reno_simulator = Simulator(reno, rate_MSS, RTT, MSS)
 
-reno_simulator.simulate_shaper(5)
-reno_simulator.simulate_phantom(5)
-
+reno_simulator.simulate_shaper(3)
+reno_simulator.simulate_phantom(3)
+reno_simulator.plot_difference_queue_growth()
 
 cubic_simulator = Simulator(cubic, rate_MSS, RTT, MSS)
 
-cubic_simulator.simulate_shaper(5)
-cubic_simulator.simulate_phantom(5)
+cubic_simulator.simulate_shaper(3)
+cubic_simulator.plot_difference_queue_growth()
+cubic_simulator.simulate_phantom(3)

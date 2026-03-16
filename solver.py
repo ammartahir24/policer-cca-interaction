@@ -50,6 +50,8 @@ class Solver():
 		T_h = T_h.subs({r_l : self.cca.Dec(r_h)})
 		T_h = simplify(self.cca.plug(T_h))
 
+		print("T_h:", T_h)
+
 
 
 		### r_l is related to r_h based on CCA's multiplicative decrease
@@ -197,6 +199,7 @@ class Solver():
 		plt.legend()
 		plt.grid(True)
 		plt.savefig("figs/" + self.cca.name + '_rates_plot.png')
+		plt.savefig("pdfs/" + self.cca.name + '_rates_plot.pdf')
 
 		plt.figure(figsize=(10, 4)) 
 		plt.plot(time, qsize, label='$Q(t)$ (Queue Size)', color='orange')
@@ -205,6 +208,7 @@ class Solver():
 		plt.legend()
 		plt.grid(True)
 		plt.savefig("figs/" + self.cca.name + '_qsize_plot.png')
+		plt.savefig("pdfs/" + self.cca.name + '_qsize_plot.pdf')
 
 
 

@@ -14,10 +14,15 @@ class Cubic():
 		self.last_drop_t = 0
 		self.last_w_max = (self.rate * self.RTT) * 1.09
 
-	def reset(self):
+	def reset(self, mode = "policer"):
 		self.last_drop_t = 0
 		self.last_w_max = (self.rate * self.RTT) * 1.09
+		if mode == "shaper":
+			print("reset shaper")
+			self.last_w_max = (self.rate * self.RTT) * 2
 
+	def initial_cwnd(self, mode = "policer"):
+		return self.last_w_max * self.beta
 
 	def Inc(self, t):
 		# r'(t), where r(t) = w(t) / RTT(t)
@@ -54,6 +59,7 @@ class Cubic():
 		beta = 1 - self.beta
 		G = 3 / (4 * self.C**(1/3))
 		G *= (beta / (4 - beta)) ** (4/3)
+		print("G", G)
 		B = G / self.RTT
 		B *= (self.rate*self.RTT)**(4/3)
 		return B * self.MSS

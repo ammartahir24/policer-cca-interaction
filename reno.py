@@ -10,8 +10,14 @@ class Reno():
 		self.beta = 0.5
 		self.name = "reno"
 
-	def reset(self):
+	def reset(self, mode = "policer"):
 		return
+
+	def initial_cwnd(self, mode = "policer"):
+		if mode == "policer":
+			return self.rate * self.RTT * (2/3)
+		else:
+			return self.rate * self.RTT
 
 	def Inc(self, t):
 		# r'(t), where r(t) = w(t) / RTT(t)
