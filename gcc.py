@@ -31,6 +31,5 @@ class Gcc():
 		return eq_eval
 
 	def Sol(self):
-		print(self.rate)
-		return None
+		return 1.228 * self.rate * self.dt
 

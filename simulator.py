@@ -93,7 +93,7 @@ class Simulator(object):
 			dt = 0
 			sent = cwnd
 
-			if Q > self.phqsize:
+			if Q > self.qsize:
 				drops += 1
 				cwnd = self.cca.decrement_cwnd(cwnd, t)
 				drop_ts.append(t)
@@ -117,7 +117,7 @@ class Simulator(object):
 		return times, cwnds, rates, queues, drop_ts, rtts
 
 	def plot(self, t, cwnd, rate, queue, drops, rtts, bn):
-		plt.figure(figsize=(6, 4)) 
+		plt.figure(figsize=(7, 3)) 
 		plt.plot(t, cwnd, label='Congestion Window $\omega(t)$', color="k")
 		plt.axhline(self.rate * self.D, label='$BDP = rD$', linestyle='--', color="k")
 		drops_ys = [1 for d in drops]
@@ -127,10 +127,11 @@ class Simulator(object):
 		plt.legend()
 		plt.grid(True)
 		plt.ylim(0, 200)
+		plt.xlim(0, 28)
 		plt.savefig(f"figs/{self.cca.name}_{bn}_cwnd.png")
 		plt.savefig(f"pdfs/{self.cca.name}_{bn}_cwnd.pdf")
 
-		plt.figure(figsize=(6, 4)) 
+		plt.figure(figsize=(7, 3)) 
 		plt.plot(t, rtts, label='RTT $R(t)$', color="k")
 		plt.axhline(self.D, label='Propagation Delay $D$', linestyle='--', color="k")
 		plt.fill_between(t, self.D, rtts, label="Queuing Delay $Q(t) / r$", color="r", alpha=0.1, hatch="//")
@@ -139,11 +140,12 @@ class Simulator(object):
 		plt.legend()
 		plt.grid(True)
 		plt.ylim(0, 0.3)
+		plt.xlim(0, 28)
 		plt.savefig(f"figs/{self.cca.name}_{bn}_rtt.png")
 		plt.savefig(f"pdfs/{self.cca.name}_{bn}_rtt.pdf")
 
 		rate = np.array([bytes_to_mbps() * self.MSS * r for r in rate])
-		plt.figure(figsize=(6, 4)) 
+		plt.figure(figsize=(7, 3)) 
 		plt.plot(t, rate, label='CCA Sending Rate $r(t)$', color="k")
 		dqrate = self.rate * self.MSS * bytes_to_mbps()
 		# plt.scatter(drops, drops_ys, label="Drops", marker="x", color="r")
@@ -155,21 +157,24 @@ class Simulator(object):
 		plt.legend()
 		plt.grid(True)
 		plt.ylim(0, 20)
+		plt.xlim(0, 28)
 		plt.savefig(f"figs/{self.cca.name}_{bn}_rate.png")
 		plt.savefig(f"pdfs/{self.cca.name}_{bn}_rate.pdf")
 
-		plt.figure(figsize=(6, 4))
+		plt.figure(figsize=(7, 3))
 		# queue = [q*self.MSS for q in queue]
-		plt.fill_between(t, 0, queue, label='Queue Occupancy $Q(t)$', color='gray', alpha=0.4, hatch="\\\\\\")
 		if bn == "shaper":
+			plt.fill_between(t, 0, queue, label='Queue Occupancy $Q(t)$', color='gray', alpha=0.4, hatch="\\\\\\")
 			plt.axhline(self.qsize, label='Queue Size $Q_{max}$', linestyle='--', color="k")
 		else:
-			plt.axhline(self.phqsize, label='Queue Size $Q_{max}$', linestyle='--', color="k")
+			plt.fill_between(t, 0, queue, label='Phantom Queue Occupancy $Q(t)$', color='gray', alpha=0.4, hatch="\\\\\\")
+			plt.axhline(self.qsize, label='Queue Size $Q_{max}$', linestyle='--', color="k")
 		plt.xlabel('Time ($t$)')
 		plt.ylabel('# Packets')
 		plt.legend()
 		plt.grid(True)
 		plt.ylim(0, 500)
+		plt.xlim(0, 28)
 		plt.savefig(f"figs/{self.cca.name}_{bn}_queue.png")
 		plt.savefig(f"pdfs/{self.cca.name}_{bn}_queue.pdf")
 
@@ -260,7 +265,7 @@ class Simulator(object):
 		plt.ylabel('# Packets')
 		plt.legend()
 		# plt.grid(True)
-		# plt.xlim(0, 6)
+		plt.xlim(0, 17)
 		# plt.ylim(0, 60)
 		plt.savefig(f"figs/{self.cca.name}_cwnd_diff.png")
 		plt.savefig(f"pdfs/{self.cca.name}_cwnd_diff.pdf")
